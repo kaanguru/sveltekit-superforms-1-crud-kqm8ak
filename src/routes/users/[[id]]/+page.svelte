@@ -1,90 +1,97 @@
 <script lang="ts">
-  import { page } from '$app/stores';
-  import { superForm } from 'sveltekit-superforms/client';
-  import spinner from '$lib/spinner.svg'
+	import { page } from '$app/stores';
+	import { superForm } from 'sveltekit-superforms/client';
 
-  export let data;
+	export let data;
 
-  const {
-    form,
-    errors,
-    enhance,
-    delayed,
-    message,
-    constraints,
-    reset
-  } = superForm(data.form, {
-    onUpdated({form}) {
-      // Fix for resetting the form when creating a user.
-      if(!data.form.data.id)
-        reset({
-          keepMessage: true
-        })
-    }
-  });
+	const { form, errors, enhance, message, constraints, reset } = superForm(data.form, {
+		onUpdated({ form }) {
+			// Fix for resetting the form when creating a user.
+			if (!data.form.data.id)
+				reset({
+					keepMessage: true
+				});
+		}
+	});
 </script>
 
-<h1><a href="/"> Superforms CRUD</a></h1>
+<section>
+	<h1><a href="/"> Superforms CRUD</a></h1>
+	<h3>Users</h3>
+	<p>
+		{#if $form.id}
+			<p />
+			<form action="/users">
+				<button>Create new</button>
+			</form>
+		{/if}
+		{#each data.users as user}
+			<p />
+			<ul>
+				<li>
+					<a href="/users/{user.id}">{user.name}</a>
+				</li>
+			</ul>
+		{/each}
+	</p>
 
-<h3>Users</h3>
-<div class="users">
-  {#if $form.id}
-    <form action="/users">
-      <button>Create new</button>
-    </form>
-  {/if}
-  {#each data.users as user}
-  <ul>
-    <a href="/users/{user.id}">{user.name}</a>
-  </ul>
-  {/each}
-</div>
+	{#if $message}
+		<h4 class="message" class:success={$page.status < 400} class:error={$page.status >= 400}>
+			{$message}
+		</h4>
+	{/if}
 
-{#if $message}
-  <h4 class="message" class:success={$page.status < 400} class:error={$page.status >= 400}>{$message}</h4>
-{/if}
+	<h2>{!$form.id ? 'Create' : 'Update'} user</h2>
 
-<h2>{!$form.id ? 'Create' : 'Update'} user</h2>
+	<form method="POST" use:enhance>
+		<input type="hidden" name="id" bind:value={$form.id} />
 
-<form method="POST" use:enhance>
-  <input type="hidden" name="id" bind:value={$form.id} />
+		<label for="name"> Name </label>
+		<input
+			name="name"
+			required
+			aria-invalid={$errors.name ? 'true' : undefined}
+			bind:value={$form.name}
+			{...$constraints.name}
+		/>
+		{#if $errors.name}<p>{$errors.name}</p>{/if}
 
-  <label>
-    Name<br />
-    <input
-      name="name"
-      aria-invalid={$errors.name ? 'true' : undefined}
-      bind:value={$form.name}
-      {...$constraints.name}
-    />
-    {#if $errors.name}<p class="invalid">{$errors.name}</p>{/if}
-  </label>
+		<label for="email"> E-mail</label>
+		<input
+			name="email"
+			type="email"
+			aria-invalid={$errors.email ? 'true' : undefined}
+			bind:value={$form.email}
+			{...$constraints.email}
+		/>
+		{#if $errors.email}<span>{$errors.email}</span>{/if}
 
-  <label>
-    E-mail<br />
-    <input
-      name="email"
-      type="email"
-      aria-invalid={$errors.email ? 'true' : undefined}
-      bind:value={$form.email}
-      {...$constraints.email}
-    />
-    {#if $errors.email}<span class="invalid">{$errors.email}</span>{/if}
-  </label>
+		<div>
+			<button>Submit</button>
+			{#if $form.id}
+				<button
+					name="delete"
+					class="danger"
+					on:click={(e) => !confirm('Are you sure?') && e.preventDefault()}
+				>
+					Delete user
+				</button>
+			{/if}
+			<button><a href="/users">Cancel</a></button>
+		</div>
+	</form>
+</section>
 
-  <div class="buttons">
-    <button>Submit</button>
-    {#if $form.id}
-      <button 
-        name="delete"
-        class="danger"
-        on:click={(e) => !confirm('Are you sure?') && e.preventDefault()}
-      >
-        Delete user
-      </button>
-    {/if}
-    {#if $delayed}<img src={spinner} alt="Loading...">{/if}
-  </div>
-  <div><input type="checkbox" name="delay"> Delay response 2s</div>
-</form>
-
+<style>
+	.danger {
+		background-color: red;
+		color: white;
+	}
+	input {
+		margin-bottom: 1rem;
+	}
+	img {
+		width: 10%;
+		height: 10%;
+	}
+</style>

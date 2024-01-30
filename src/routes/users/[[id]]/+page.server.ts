@@ -2,7 +2,7 @@ import { superValidate, message } from 'sveltekit-superforms/server';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { createId } from '@paralleldrive/cuid2';
 
-import { users, userId, userSchema } from '$lib/users';
+import { users,  userSchema } from '$lib/users';
 import type { Actions, PageServerLoad } from './$types';
 
 const crudSchema = userSchema.extend({
@@ -28,10 +28,6 @@ export const actions: Actions = {
 	default: async ({ request }) => {
 		const formData = await request.formData();
 		const form = await superValidate(formData, crudSchema);
-
-		if (formData.has('delay')) {
-			await new Promise((r) => setTimeout(r, 2000));
-		}
 
 		if (!form.valid) return fail(400, { form });
 

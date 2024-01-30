@@ -9,14 +9,13 @@ export const userSchema = z.object({
 
 type UserDB = z.infer<typeof userSchema>[];
 
-const g = globalThis as unknown as { users: UserDB };
-
-export const userId = () => createId();
+const g = globalThis as unknown as { users?: UserDB };
 
 export const users = g.users ?? [
-	createUser('Important Customer', 'important@example.com'),
+	createUser('user1', 'important@example.com'),
 	createUser('Super Customer', 'super@example.com')
 ];
+
 function createUser(name: string, email: string) {
 	return {
 		id: createId(),
