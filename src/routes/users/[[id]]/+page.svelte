@@ -77,21 +77,9 @@
 					Delete user
 				</button>
 			{/if}
-			<button><a href="/users">Cancel</a></button>
+			<a href="/users"><button>Cancel</button></a>
 		</div>
 	</form>
 </section>
 
-<style>
-	.danger {
-		background-color: red;
-		color: white;
-	}
-	input {
-		margin-bottom: 1rem;
-	}
-	img {
-		width: 10%;
-		height: 10%;
-	}
-</style>
+
