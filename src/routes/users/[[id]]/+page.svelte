@@ -18,29 +18,26 @@
 <section>
 	<h1><a href="/"> Superforms CRUD</a></h1>
 	<h3>Users</h3>
-	<p>
-		{#if $form.id}
-			<p />
-			<form action="/users">
-				<button>Create new</button>
-			</form>
-		{/if}
+	{#if $form.id}
+		<p />
+		<form action="/users">
+			<button>Create new</button>
+		</form>
+	{/if}
+	<ul>
 		{#each data.users as user}
-			<p />
-			<ul>
-				<li>
-					<a href="/users/{user.id}">{user.name}</a>
-				</li>
-			</ul>
+			<li>
+				<a href="/users/{user.id}">{user.name}</a>
+			</li>
 		{/each}
-	</p>
+	</ul>
 
 	{#if $message}
 		<h4 class="message" class:success={$page.status < 400} class:error={$page.status >= 400}>
 			{$message}
 		</h4>
 	{/if}
-
+		<hr>
 	<h2>{!$form.id ? 'Create' : 'Update'} user</h2>
 
 	<form method="POST" use:enhance>
@@ -82,4 +79,20 @@
 	</form>
 </section>
 
+<style>
+	ul {
+		columns: 2;
+		column-gap: 20px;
+		list-style: none;
+		& :hover {
+			background-color: #ccc;
+		}
+	}
 
+	li {
+		break-inside: avoid;
+		height: 3rem;
+		border-bottom: 1px solid #ccc;
+		padding: 10px;
+	}
+</style>
