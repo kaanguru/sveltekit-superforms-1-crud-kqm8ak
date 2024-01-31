@@ -3,8 +3,8 @@ import { createId } from '@paralleldrive/cuid2';
 
 export const userSchema = z.object({
 	id: z.string().cuid2(),
-	name: z.string().min(2),
-	email: z.string().email()
+	name: z.string().min(2,"çok küçük"),
+	email: z.string().email("bu nasıl mail")
 });
 
 type UserDB = z.infer<typeof userSchema>[];

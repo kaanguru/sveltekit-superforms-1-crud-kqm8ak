@@ -1,13 +1,15 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { superForm } from 'sveltekit-superforms/client';
-
+	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 	export let data;
 
 	const { form, errors, enhance, message, constraints, reset } = superForm(data.form, {
 		// Fix for resetting the form when creating a user.
 		onUpdated({ form }) {
-			if (!data.form.data.id) reset();
+			if (!data.form.data.id) reset({
+					keepMessage: true
+				});
 		}
 	});
 </script>
@@ -30,13 +32,15 @@
 	</ul>
 
 	{#if $message}
-		<h4 class="message" class:success={$page.status < 400} class:error={$page.status >= 400}>
+		<h4 class:success={$page.status < 400} class:error={$page.status >= 400}>
 			{$message}
 		</h4>
 	{/if}
 	<hr />
-	<h2>{!$form.id ? 'Create' : 'Update'} user</h2>
+	<h2>{$form.id ? 'Update' : 'Create'} user</h2>
 </section>
+
+<SuperDebug data={$form} />
 <form method="POST" use:enhance>
 	<input type="hidden" name="id" bind:value={$form.id} />
 
@@ -48,7 +52,7 @@
 		bind:value={$form.name}
 		{...$constraints.name}
 	/>
-	{#if $errors.name}<p>{$errors.name}</p>{/if}
+	{#if $errors.name}<span class="invalid">{$errors.name}</span>{/if}
 
 	<label for="email"> E-mail</label>
 	<input
@@ -90,5 +94,11 @@
 		height: 3rem;
 		border-bottom: 1px solid #ccc;
 		padding: 10px;
+	}
+	.success {
+		color: green;
+	}
+	.invalid {
+		color: red;
 	}
 </style>
