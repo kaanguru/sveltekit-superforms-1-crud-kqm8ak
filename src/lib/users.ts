@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { createId } from '@paralleldrive/cuid2';
 
 export const userSchema = z.object({
-	id: z.string().cuid2(),
+	id: z.string().cuid2().optional(),
 	name: z.string().min(2),
 	email: z.string().email()
 });

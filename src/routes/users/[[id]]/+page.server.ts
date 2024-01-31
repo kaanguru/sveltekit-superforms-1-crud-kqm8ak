@@ -5,9 +5,9 @@ import { createId } from '@paralleldrive/cuid2';
 import { users,  userSchema } from '$lib/users';
 import type { Actions, PageServerLoad } from './$types';
 
-const crudSchema = userSchema.extend({
+/* const crudSchema = userSchema.extend({
 	id: userSchema.shape.id.optional()
-});
+}); */
 
 ///// Load //////////////////////////////////////////////////////////
 
@@ -18,7 +18,7 @@ export const load: PageServerLoad = async ({ params }) => {
 	if (params.id && !user) throw error(404, 'User not found.');
 
 	// If user is null, default values for the schema will be returned.
-	const form = await superValidate(user, crudSchema);
+	const form = await superValidate(user, userSchema);
 	return { form, users };
 };
 
@@ -27,7 +27,7 @@ export const load: PageServerLoad = async ({ params }) => {
 export const actions: Actions = {
 	default: async ({ request }) => {
 		const formData = await request.formData();
-		const form = await superValidate(formData, crudSchema);
+		const form = await superValidate(formData, userSchema);
 
 		if (!form.valid) return fail(400, { form });
 

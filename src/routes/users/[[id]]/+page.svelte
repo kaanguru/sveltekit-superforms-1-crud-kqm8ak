@@ -18,22 +18,18 @@
 <section>
 	<h1><a href="/"> Superforms CRUD</a></h1>
 	<h3>Users</h3>
-	<p>
 		{#if $form.id}
-			<p />
 			<form action="/users">
 				<button>Create new</button>
 			</form>
 		{/if}
+	<ul>
 		{#each data.users as user}
-			<p />
-			<ul>
-				<li>
-					<a href="/users/{user.id}">{user.name}</a>
-				</li>
-			</ul>
+			<li>
+				<a href="/users/{user.id}">{user.name}</a>
+			</li>
 		{/each}
-	</p>
+	</ul>
 
 	{#if $message}
 		<h4 class="message" class:success={$page.status < 400} class:error={$page.status >= 400}>
@@ -82,4 +78,20 @@
 	</form>
 </section>
 
-
+<style>
+	ul {
+		-moz-column-count: 2;
+		-webkit-column-count: 2;
+		column-count: 2;
+		& li {
+			display: inline-block;
+			width: 100%;
+			margin-bottom: 1em;
+			padding: 1rem;
+			&:hover {
+				background-color: #eee;
+				border-radius: 5px;
+			}
+		}
+	}
+</style>
