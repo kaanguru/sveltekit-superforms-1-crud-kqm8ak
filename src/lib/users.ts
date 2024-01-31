@@ -1,5 +1,8 @@
 import { z } from 'zod';
-import { createId } from '@paralleldrive/cuid2';
+import { init } from '@paralleldrive/cuid2';
+export const createId = init({
+	length: 8
+});
 
 export const userSchema = z.object({
 	id: z.string().cuid2(),

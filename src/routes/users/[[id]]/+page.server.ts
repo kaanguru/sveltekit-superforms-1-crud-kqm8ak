@@ -1,8 +1,6 @@
 import { superValidate, message } from 'sveltekit-superforms/server';
 import { error, fail, redirect } from '@sveltejs/kit';
-import { createId } from '@paralleldrive/cuid2';
-
-import { users,  userSchema } from '$lib/users';
+import { users, userSchema, createId } from '$lib/users';
 import type { Actions, PageServerLoad } from './$types';
 
 const crudSchema = userSchema.extend({
@@ -38,7 +36,7 @@ export const actions: Actions = {
 
 			return message(form, 'User created!');
 		} else {
-			const index = users.findIndex((u) => u.id == form.data.id);
+			const index = users.findIndex((u) => u.id === form.data.id);
 			if (index == -1) throw error(404, 'User not found.');
 
 			if (formData.has('delete')) {

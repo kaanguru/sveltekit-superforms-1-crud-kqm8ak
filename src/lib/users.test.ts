@@ -7,7 +7,7 @@ describe('users', () => {
     const user = createUser('John', 'john@test.com');
 
     expect(user).toEqual({
-      id: expect.stringMatching(/^[a-z0-9]{24}$/),
+      id: expect.stringMatching(/^[a-z0-9]{8}$/),
       name: 'John', 
       email: 'john@test.com'
     });
