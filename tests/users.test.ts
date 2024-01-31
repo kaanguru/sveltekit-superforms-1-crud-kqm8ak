@@ -1,5 +1,5 @@
 import { expect, it, describe } from 'vitest';
-import { createUser, users } from './users';
+import { createUser, users } from '../src/lib/users';
 
 describe('users', () => {
 
