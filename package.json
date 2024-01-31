@@ -5,6 +5,7 @@
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
+		"test": "vitest",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
 		"lint": "prettier --plugin-search-dir . --check .",
@@ -23,6 +24,7 @@
 		"sveltekit-superforms": "^1.13.4",
 		"typescript": "^5.3.3",
 		"vite": "^4.5.2",
+		"vitest": "^1.2.2",
 		"zod": "^3.22.4"
 	},
 	"type": "module",

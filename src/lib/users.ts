@@ -16,7 +16,7 @@ export const users = g.users ?? [
 	createUser('Super Customer', 'super@example.com')
 ];
 
-function createUser(name: string, email: string) {
+export function createUser(name: string, email: string) {
 	return {
 		id: createId(),
 		name,
