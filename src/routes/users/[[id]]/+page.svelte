@@ -2,8 +2,8 @@
 	import { page } from '$app/stores';
 	import { superForm } from 'sveltekit-superforms/client';
 	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
-	export let data;
 
+	export let data;
 	const { form, errors, enhance, message, constraints, reset, delayed } = superForm(data.form, {
 		// Fix for resetting the form when creating a user.
 		onUpdated({ form }) {
@@ -22,13 +22,15 @@
 
 		<ul>
 			{#each data.users as user}
-				<li>
-					<a href="/users/{user.id}">{user.name}</a>
-				</li>
+				<a href="/users/{user.id}"
+					><li>
+						{user.name}
+					</li></a
+				>
 			{/each}
 		</ul>
 		{#if $form.id}
-			<form  action="/users">
+			<form action="/users">
 				<button class="newButton">Create new</button>
 			</form>
 		{/if}
