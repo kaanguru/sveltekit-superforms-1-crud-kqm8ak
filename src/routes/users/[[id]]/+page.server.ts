@@ -13,7 +13,7 @@ const crudSchema = userSchema.extend({
 
 export const load: PageServerLoad = async ({ params }) => {
 	// READ user
-	const user = users.find((u) => u.id == params.id);
+	const user = users.find((u) => u.id === params.id);
 
 	if (params.id && !user) throw error(404, 'User not found.');
 
