@@ -7,7 +7,7 @@ describe('users', () => {
     const user = createUser('John', 'john@test.com');
 
     expect(user).toEqual({
-      id: expect.any(String),
+      id: expect.stringMatching(/^[a-z0-9]{24}$/),
       name: 'John', 
       email: 'john@test.com'
     });
@@ -16,7 +16,7 @@ describe('users', () => {
   it('users is an array', () => {
     expect(Array.isArray(users)).toBe(true);
   });
-
+  
   it('users contains valid user objects', () => {
     users.forEach(user => {
       expect(user).toMatchObject({
